@@ -2,6 +2,7 @@ package com.example.mealhelper;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     IngredientDao ingredientDao;
     TextView txtResult;
     EditText editText1;
-    Button btnSearch, btnSave;
+    Button btnSearch, btnSave, btnGoToGenerator;
     String apiKey = "2a695673a58445d98c130ecb7d1c8c98";
 
     String lastIngredientId, lastIngredientName, lastIngredientImageUrl;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         editText1 = findViewById(R.id.editTxtSearch);
         btnSearch = findViewById(R.id.btnSearch);
         btnSave = findViewById(R.id.btnSave);
+        btnGoToGenerator = findViewById(R.id.btnRecipeGenerate);
 
         btnSearch.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnSave.setOnClickListener((new View.OnClickListener() {
+        btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -92,7 +94,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }).start();
             }
-        }));
+        });
+    }
+
+    public void goToRecipeGenerator(View view) {
+        Intent intent = new Intent(MainActivity.this, RecipeFinder.class);
+        startActivity(intent);
     }
 
     private void callVolley(String newUrl){
