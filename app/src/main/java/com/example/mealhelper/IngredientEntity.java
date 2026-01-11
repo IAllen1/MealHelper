@@ -13,17 +13,6 @@ public class IngredientEntity {
     @ColumnInfo (name = "ingredientId") Integer ingredientId;
     @ColumnInfo (name = "ingredientName") String ingredientName;
     @ColumnInfo (name = "ingredientImageUrl") String imageUrl;
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    @ColumnInfo (name = "ingredientImageUrl") String imageUrl;
-
     public Integer getIngredientId() {
         return ingredientId;
     }
