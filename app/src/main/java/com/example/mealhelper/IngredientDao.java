@@ -18,5 +18,6 @@ public interface IngredientDao {
     @Query("SELECT * FROM Ingredient WHERE ingredientId = :ingredientId LIMIT 1")
     IngredientEntity getIngredientById(int ingredientId);
 
-
+    @Query("SELECT ingredientName FROM Ingredient")
+    List<String> getIngredientNames();
 }
