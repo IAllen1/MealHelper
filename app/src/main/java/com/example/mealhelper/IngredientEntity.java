@@ -12,6 +12,7 @@ public class IngredientEntity {
     @PrimaryKey
     @ColumnInfo (name = "ingredientId") Integer ingredientId;
     @ColumnInfo (name = "ingredientName") String ingredientName;
+    @ColumnInfo (name = "ingredientImageUrl") String imageUrl;
 
     public Integer getIngredientId() {
         return ingredientId;
@@ -27,5 +28,12 @@ public class IngredientEntity {
 
     public void setIngredientName(String ingredientName) {
         this.ingredientName = ingredientName;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
