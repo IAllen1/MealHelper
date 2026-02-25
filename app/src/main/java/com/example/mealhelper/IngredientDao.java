@@ -20,4 +20,7 @@ public interface IngredientDao {
 
     @Query("SELECT ingredientName FROM Ingredient")
     List<String> getIngredientNames();
+
+    @Query("UPDATE Ingredient SET isChecked = :checked WHERE ingredientId = :id")
+    void updateChecked(int id, boolean checked);
 }

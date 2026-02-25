@@ -9,30 +9,25 @@ import androidx.room.PrimaryKey;
 public class IngredientEntity {
 
     //Primary Key for table, not auto generated as ID will be taken from the API
-    @PrimaryKey
-    @ColumnInfo (name = "ingredientId") Integer ingredientId;
+    @PrimaryKey (autoGenerate = true) Integer ingredientId;
     @ColumnInfo (name = "ingredientName") String ingredientName;
-    @ColumnInfo (name = "ingredientImageUrl") String imageUrl;
+    @ColumnInfo (name = "isChecked", defaultValue = "0") boolean isChecked;
     public Integer getIngredientId() {
         return ingredientId;
     }
-
     public void setIngredientId(Integer ingredientId) {
         this.ingredientId = ingredientId;
     }
-
     public String getIngredientName() {
         return ingredientName;
     }
-
     public void setIngredientName(String ingredientName) {
         this.ingredientName = ingredientName;
     }
-
-    public String getImageUrl() {
-        return imageUrl;
+    public boolean getChecked() {
+        return isChecked;
     }
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }
