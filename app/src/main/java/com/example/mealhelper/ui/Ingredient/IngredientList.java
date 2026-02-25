@@ -1,23 +1,32 @@
-package com.example.mealhelper;
+package com.example.mealhelper.ui.Ingredient;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.helper.widget.Grid;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.example.mealhelper.R;
+import com.example.mealhelper.data.MealDatabase;
+import com.example.mealhelper.data.dao.IngredientDao;
+import com.example.mealhelper.data.entity.IngredientEntity;
+import com.example.mealhelper.ui.recipe.RecipeFinder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class IngredientList extends AppCompatActivity implements IngredientRecyclerViewInterface{
+public class IngredientList extends AppCompatActivity implements IngredientRecyclerViewInterface {
 
     MealDatabase mealDatabase;
     IngredientDao ingredientDao;
     IngredientRecyclerAdapter adapter;
     ArrayList<IngredientViewModel> ingredientViewModels = new ArrayList<>();
+    Button generateRecipes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +37,9 @@ public class IngredientList extends AppCompatActivity implements IngredientRecyc
         ingredientDao = mealDatabase.ingredientDao();
         RecyclerView recyclerView = findViewById(R.id.viewIngredientList);
 
-        //For listing all the ingredients within the ingredients table - Should be done
+        //For listing all the ingredients alphabetically within the ingredients table - Should be done
 
-        //User can select a single/multiple ingredient(s)
+        //User can select a single/multiple ingredient(s) - Done
         //User can tap generate recipes - taking them to a new view with the results based on the ingredients selected
         //User can add new ingredients to the database if needed
 
@@ -53,6 +62,46 @@ public class IngredientList extends AppCompatActivity implements IngredientRecyc
         adapter = new IngredientRecyclerAdapter(this, ingredientViewModels, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
+        generateRecipes = findViewById(R.id.btnGenerateRecipe);
+
+        generateRecipes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Query the ingredients table for selected items
+                    List<String> selectedIngredients = ingredientDao.getCheckedIngredientNames();
+
+                    //Check if the list is empty, if empty then there are no selected ingredients
+                        if (selectedIngredients.isEmpty()){
+                            //Tell the user to select an ingredient
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "Select at least 1 ingredient", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            return;
+                        }
+
+                        String ingredientBuilder = TextUtils.join(",", selectedIngredients);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent i = new Intent(IngredientList.this, RecipeFinder.class);
+
+                                i.putExtra("ingredientBuilder", ingredientBuilder);
+
+                                startActivity(i);
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
+
     }
     private void buildIngredientList(){
         IngredientEntity ingredientEntity1 = new IngredientEntity();
@@ -132,15 +181,6 @@ public class IngredientList extends AppCompatActivity implements IngredientRecyc
                         ingredient.getIngredientId(),
                         ingredient.isChecked()
                 );
-
-                /*runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d("DEBUG", "Before: " + ingredient.isChecked());
-                        ingredient.setChecked(!ingredient.isChecked());
-                        Log.d("DEBUG", "After: " + ingredient.isChecked());
-                    }
-                });*/
             }
         }).start();
     }

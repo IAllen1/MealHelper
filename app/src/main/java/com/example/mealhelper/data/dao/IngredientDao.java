@@ -1,8 +1,10 @@
-package com.example.mealhelper;
+package com.example.mealhelper.data.dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+
+import com.example.mealhelper.data.entity.IngredientEntity;
 
 import java.util.List;
 
@@ -23,4 +25,7 @@ public interface IngredientDao {
 
     @Query("UPDATE Ingredient SET isChecked = :checked WHERE ingredientId = :id")
     void updateChecked(int id, boolean checked);
+
+    @Query ("SELECT ingredientName FROM Ingredient WHERE isChecked = 1")
+    List<String> getCheckedIngredientNames();
 }

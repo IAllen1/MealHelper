@@ -1,4 +1,4 @@
-package com.example.mealhelper;
+package com.example.mealhelper.data.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -18,7 +18,6 @@ public class RecipeEntity {
     public Integer getRecipeID() {
         return recipeID;
     }
-
     public void setRecipeID(Integer recipeID) {
         this.recipeID = recipeID;
     }
@@ -26,7 +25,6 @@ public class RecipeEntity {
     public String getRecipeTitle() {
         return recipeTitle;
     }
-
     public void setRecipeTitle(String recipeTitle) {
         this.recipeTitle = recipeTitle;
     }
@@ -34,7 +32,6 @@ public class RecipeEntity {
     public String getImageUrl() {
         return imageUrl;
     }
-
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
@@ -42,7 +39,6 @@ public class RecipeEntity {
     public String getSourceUrl() {
         return sourceUrl;
     }
-
     public void setSourceUrl(String sourceUrl) {
         this.sourceUrl = sourceUrl;
     }
