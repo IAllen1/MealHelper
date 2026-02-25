@@ -1,4 +1,4 @@
-package com.example.mealhelper;
+package com.example.mealhelper.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +16,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.mealhelper.R;
+import com.example.mealhelper.ui.recipe.RecipeFinder;
+import com.example.mealhelper.data.MealDatabase;
+import com.example.mealhelper.data.dao.IngredientDao;
+import com.example.mealhelper.data.entity.IngredientEntity;
+import com.example.mealhelper.ui.Ingredient.IngredientList;
 
 import org.json.JSONArray;
 import org.json.JSONException;

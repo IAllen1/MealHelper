@@ -1,4 +1,4 @@
-package com.example.mealhelper;
+package com.example.mealhelper.ui.Ingredient;
 
 public class IngredientViewModel {
 

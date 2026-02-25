@@ -1,4 +1,4 @@
-package com.example.mealhelper;
+package com.example.mealhelper.data.entity;
 
 
 import androidx.room.ColumnInfo;

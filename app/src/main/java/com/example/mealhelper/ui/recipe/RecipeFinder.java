@@ -1,7 +1,10 @@
-package com.example.mealhelper;
+package com.example.mealhelper.ui.recipe;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,35 +19,50 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.mealhelper.R;
+import com.example.mealhelper.data.MealDatabase;
+import com.example.mealhelper.data.dao.IngredientDao;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class RecipeFinder extends AppCompatActivity {
+public class RecipeFinder extends AppCompatActivity implements RecipeRecyclerViewInterface{
 
     MealDatabase mealDatabase;
-    IngredientDao ingredientDao;
     String apiKey = "2a695673a58445d98c130ecb7d1c8c98";
-    Button btnGenerate;
-    TextView txtUrl;
+    RecyclerView recyclerView;
+
+    RecipeRecyclerAdapter adapter;
+    ArrayList<RecipeViewModel> recipeViewModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_finder);
-
         mealDatabase = MealDatabase.getMealDatabase(getApplicationContext());
-        ingredientDao = mealDatabase.ingredientDao();
+        recyclerView = findViewById(R.id.recipeSearchResult);
 
-        btnGenerate = findViewById(R.id.btnGenerate);
-        txtUrl = findViewById(R.id.txtUrl);
+        adapter = new RecipeRecyclerAdapter(this, recipeViewModels, this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        String ingredientBuilder = getIntent().getStringExtra("ingredientBuilder");
+
+        callVolley(ingredientBuilder);
+
+        //Query which ingredients have been selected
+        //Needs to run whenever the user clicks generate recipes button on the ingredients list view & the result of the api call is populated into the new view
+        //And taking the user into the view
+
+
 
         //https://api.spoonacular.com/recipes/findByIngredients?apiKey=2a695673a58445d98c130ecb7d1c8c98&ingredients=chicken+breast&ignorePantry=false
 
-        btnGenerate.setOnClickListener(new View.OnClickListener() {
+        /*btnGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -52,6 +70,8 @@ public class RecipeFinder extends AppCompatActivity {
                 //to build a string which will form the api call for the recipes
 
                 //Should query to get only the ingredient name from the table
+
+
 
                 new Thread(new Runnable() {
                     @Override
@@ -79,19 +99,27 @@ public class RecipeFinder extends AppCompatActivity {
                     }
                 }).start();
             }
-        });
+        });*/
     }
 
+    private void callVolley(String ingredientBuilder){
 
-    private void callVolley(String newUrl){
+        //Build the URL here
+        String recipeUrl = "https://api.spoonacular.com/recipes/findByIngredients"
+                + "?apiKey=" + apiKey
+                + "&ingredients=" + ingredientBuilder
+                + "&number=10&ranking=1&ignorePantry=false";
+
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, newUrl,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, recipeUrl,
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String response){
                         try{
                             JSONArray recipeArray = new JSONArray(response);
+
+                            recipeViewModels.clear();
 
                             for (int i = 0; i < recipeArray.length(); i++){
                                 JSONObject recipeObj = recipeArray.getJSONObject(i);
@@ -101,7 +129,13 @@ public class RecipeFinder extends AppCompatActivity {
                                 String imageUrl = recipeObj.getString("image");
 
                                 Log.d("RECIPE", title);
+
+                                //Build recycler view here
+                                recipeViewModels.add(new RecipeViewModel(recipeId, title));
+
                             }
+
+                            adapter.notifyDataSetChanged();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -114,5 +148,15 @@ public class RecipeFinder extends AppCompatActivity {
             }
         });
         queue.add(stringRequest);
+    }
+
+    @Override
+    public void onItemClick(int position){
+        Intent i = new Intent();
+
+        i.putExtra("recipeId", recipeViewModels.get(position).getRecipeId());
+        i.putExtra("recipeName", recipeViewModels.get(position).getRecipeName());
+
+        startActivity(i);
     }
 }

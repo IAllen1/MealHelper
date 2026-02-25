@@ -1,10 +1,21 @@
-package com.example.mealhelper;
+package com.example.mealhelper.data;
 
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+
+import com.example.mealhelper.data.entity.IngredientEntity;
+import com.example.mealhelper.data.entity.MealPlanEntity;
+import com.example.mealhelper.data.entity.RecipeEntity;
+import com.example.mealhelper.data.entity.ShoppingListEntity;
+import com.example.mealhelper.data.entity.ShoppingListItemEntity;
+import com.example.mealhelper.data.dao.IngredientDao;
+import com.example.mealhelper.data.dao.MealPlanDao;
+import com.example.mealhelper.data.dao.RecipeDao;
+import com.example.mealhelper.data.dao.ShoppingListDao;
+import com.example.mealhelper.data.dao.ShoppingListItemDao;
 
 
 @Database(entities =
