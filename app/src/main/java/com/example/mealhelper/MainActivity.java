@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         IngredientEntity ingredient = new IngredientEntity();
                         ingredient.setIngredientId(Integer.parseInt(lastIngredientId));
                         ingredient.setIngredientName(lastIngredientName);
-                        ingredient.setImageUrl(lastIngredientImageUrl);
+                       // ingredient.setImageUrl(lastIngredientImageUrl);
 
                         IngredientEntity existing = ingredientDao.getIngredientById(Integer.parseInt(lastIngredientId));
 
@@ -99,6 +99,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToRecipeGenerator(View view) {
         Intent intent = new Intent(MainActivity.this, RecipeFinder.class);
+        startActivity(intent);
+    }
+
+    public void goToIngredientList(View view) {
+        Intent intent = new Intent(MainActivity.this, IngredientList.class);
         startActivity(intent);
     }
 

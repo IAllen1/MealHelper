@@ -15,6 +15,9 @@
         android:theme="@style/Theme.MealHelper"
         tools:targetApi="31">
         <activity
+            android:name=".IngredientList"
+            android:exported="false" />
+        <activity
             android:name=".RecipeFinder"
             android:exported="false" />
         <activity
