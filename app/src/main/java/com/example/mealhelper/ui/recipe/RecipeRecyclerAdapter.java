@@ -10,9 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mealhelper.R;
-import com.example.mealhelper.ui.Ingredient.IngredientRecyclerAdapter;
-import com.example.mealhelper.ui.Ingredient.IngredientRecyclerViewInterface;
-import com.example.mealhelper.ui.Ingredient.IngredientViewModel;
 
 import java.util.ArrayList;
 

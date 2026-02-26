@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtText1" />
 
     <Button
-        android:id="@+id/btnSave"
+        android:id="@+id/B"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
@@ -56,8 +56,8 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="30dp"
         android:text="Result"
-        app:layout_constraintStart_toStartOf="@+id/btnSave"
-        app:layout_constraintTop_toBottomOf="@+id/btnSave" />
+        app:layout_constraintStart_toStartOf="@+id/B"
+        app:layout_constraintTop_toBottomOf="@+id/B" />
 
     <Button
         android:id="@+id/btnRecipeGenerate"
