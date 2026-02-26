@@ -55,9 +55,14 @@ public class RecipeFinder extends AppCompatActivity implements RecipeRecyclerVie
         callVolley(ingredientBuilder);
 
         //Query which ingredients have been selected
-        //Needs to run whenever the user clicks generate recipes button on the ingredients list view & the result of the api call is populated into the new view
-        //And taking the user into the view
-
+        //Needs to run whenever the user clicks generate recipes button on the ingredients list activity & the result of the api call is populated into the new activity
+        //And taking the user into the recipeFinder activity
+        //Tidy up the recyclerView row for recipe results, make it clickable etc.
+        //Show 20 recipe results for now, adjust the url sorting by how many used ingredients first, then unused ingredients
+        //In the future, store the unused ingredients for use for shopping list functionality
+        //New Activity for detailed recipe info based on the selected recipe from search result - Image, Name, Ingredients Used, Ingredients Missing. View Recipe Button taking user into a WebView
+        //Save button to add the recipe to the Recipe table for easy access in the future
+        //Merge current into Master at end of day
 
 
         //https://api.spoonacular.com/recipes/findByIngredients?apiKey=2a695673a58445d98c130ecb7d1c8c98&ingredients=chicken+breast&ignorePantry=false
@@ -108,7 +113,7 @@ public class RecipeFinder extends AppCompatActivity implements RecipeRecyclerVie
         String recipeUrl = "https://api.spoonacular.com/recipes/findByIngredients"
                 + "?apiKey=" + apiKey
                 + "&ingredients=" + ingredientBuilder
-                + "&number=10&ranking=1&ignorePantry=false";
+                + "&number=20&ranking=1&ignorePantry=false";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -153,7 +158,7 @@ public class RecipeFinder extends AppCompatActivity implements RecipeRecyclerVie
     @Override
     public void onItemClick(int position){
         Intent i = new Intent();
-
+        
         i.putExtra("recipeId", recipeViewModels.get(position).getRecipeId());
         i.putExtra("recipeName", recipeViewModels.get(position).getRecipeName());
 
