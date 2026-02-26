@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
         txtResult = findViewById(R.id.txtSearchResult);
         editText1 = findViewById(R.id.editTxtSearch);
         btnSearch = findViewById(R.id.btnSearch);
-        btnSave = findViewById(R.id.btnSave);
+        btnSave = findViewById(R.id.B);
         btnGoToGenerator = findViewById(R.id.btnRecipeGenerate);
 
         btnSearch.setOnClickListener(new View.OnClickListener(){

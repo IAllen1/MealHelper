@@ -21,6 +21,9 @@
             android:name=".ui.recipe.RecipeFinder"
             android:exported="false" />
         <activity
+            android:name=".ui.recipe.RecipeDetails"
+            android:exported="false"/>
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>
