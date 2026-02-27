@@ -82,6 +82,7 @@ public class RecipeFinder extends AppCompatActivity implements RecipeRecyclerVie
 
                                 int recipeId = recipeObj.getInt("id");
                                 String title = recipeObj.getString("title");
+                                String imageUrl = recipeObj.getString("image");
 
                                 //Used and unused ingredients are its own JSON Array within the recipeArray
 
@@ -107,7 +108,7 @@ public class RecipeFinder extends AppCompatActivity implements RecipeRecyclerVie
 
                                 //Log.d("RECIPE", title);
 
-                                recipeViewModels.add(new RecipeViewModel(recipeId, title, usedIngredients.toString(), missedIngredients.toString()));
+                                recipeViewModels.add(new RecipeViewModel(recipeId, title, usedIngredients.toString(), missedIngredients.toString(), imageUrl));
 
                             }
                             adapter.notifyDataSetChanged();
@@ -129,6 +130,7 @@ public class RecipeFinder extends AppCompatActivity implements RecipeRecyclerVie
         Intent i = new Intent(RecipeFinder.this, RecipeDetails.class);
         
         i.putExtra("recipeId", recipeViewModels.get(position).getRecipeId());
+        i.putExtra("recipeName", recipeViewModels.get(position).getRecipeName());
         i.putExtra("usedIngredients", recipeViewModels.get(position).getUsedIngredients());
         i.putExtra("missedIngredients", recipeViewModels.get(position).getMissedIngredients());
 

@@ -2,11 +2,14 @@ package com.example.mealhelper.ui.recipe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.mealhelper.R;
 import com.example.mealhelper.data.MealDatabase;
 import com.example.mealhelper.data.dao.RecipeDao;
+import com.example.mealhelper.data.entity.RecipeEntity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +36,7 @@ public class RecipeDetails extends AppCompatActivity {
     Button viewRecipe, saveRecipe;
     ImageView recipeImage;
     String sourceUrl = "";
+    String imageUrl = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,7 @@ public class RecipeDetails extends AppCompatActivity {
         recipeImage = findViewById(R.id.imgRecipeImage);
 
         int recipeId = getIntent().getIntExtra("recipeId", -1);
+        String recipeName = getIntent().getStringExtra("recipeName");
         String usedIngredients = getIntent().getStringExtra("usedIngredients");
         String missedIngredients = getIntent().getStringExtra("missedIngredients");
 
@@ -57,6 +63,63 @@ public class RecipeDetails extends AppCompatActivity {
         callVolley(recipeId);
         recipeUsedIngredients.setText(usedIngredients);
         recipeUnusedIngredients.setText(missedIngredients);
+
+        //View Recipe Functionality Here
+        viewRecipe.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+
+                Intent i = new Intent(RecipeDetails.this, RecipeViewer.class);
+                i.putExtra("sourceUrl", sourceUrl);
+                startActivity(i);
+            }
+        });
+
+        //Save Recipe Functionality Here
+        //1. Set OnClickListener for save recipe button
+        //2. Separate thread, access the table & dao
+        //3. Check if the recipe is already in the table by checking against the recipeID
+        //4. If recipe not in table, insert recipe into table
+        //5. Toast user the output
+
+        saveRecipe.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        RecipeEntity recipe = new RecipeEntity();
+                        recipe.setRecipeID(recipeId);
+                        recipe.setRecipeTitle(recipeName);
+                        recipe.setImageUrl(imageUrl);
+                        recipe.setSourceUrl(sourceUrl);
+
+                        //Check if the recipe is already saved in the table
+                        RecipeEntity existing = recipeDao.getRecipeById(recipeId);
+
+                        if (existing != null){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(),
+                                            recipeName + " already saved", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            return;
+                        }
+                        recipeDao.addRecipe(recipe);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(),
+                                        recipeName + " successfully added", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }).start();
+            }
+        });
 
     }
 
@@ -79,15 +142,10 @@ public class RecipeDetails extends AppCompatActivity {
 
                             JSONObject obj = new JSONObject(response);
 
-                            String recipeTitle = obj.getString("title");
-                            String recipeImageURL = obj.getString("image");
-                            String sourceURL = obj.getString("sourceUrl");
-
-                            recipeName.setText(recipeTitle);
-                            sourceUrl = sourceURL;
-
-                            //Parse the Image URL to fill the image view here
-                            loadRecipeImage(recipeImageURL);
+                            recipeName.setText(obj.getString("title"));
+                            imageUrl = obj.getString("image");
+                            loadRecipeImage(imageUrl);
+                            sourceUrl = obj.getString("sourceUrl");
 
                         } catch (JSONException e) {
                             e.printStackTrace();
