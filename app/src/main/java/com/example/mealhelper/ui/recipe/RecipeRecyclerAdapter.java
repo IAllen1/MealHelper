@@ -4,11 +4,13 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.mealhelper.R;
 
 import java.util.ArrayList;
@@ -37,6 +39,11 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     public void onBindViewHolder(@NonNull RecipeRecyclerAdapter.MyViewHolder holder, int position) {
         RecipeViewModel recipe = recipeViewModels.get(position);
         holder.recipeName.setText(recipe.getRecipeName());
+
+        //Image Parsing
+        Glide.with(holder.itemView.getContext())
+                .load(recipe.getImageUrl())
+                .into(holder.recipeImage);
     }
     @Override
     public int getItemCount() {
@@ -44,11 +51,13 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     }
     public static class MyViewHolder extends RecyclerView.ViewHolder{
         TextView recipeName;
+        ImageView recipeImage;
 
         public MyViewHolder(@NonNull View itemView, RecipeRecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
             recipeName = itemView.findViewById(R.id.txtRecipeName);
+            recipeImage = itemView.findViewById(R.id.imgRecipe);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

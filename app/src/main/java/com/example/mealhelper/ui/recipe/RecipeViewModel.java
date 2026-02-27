@@ -3,13 +3,17 @@ package com.example.mealhelper.ui.recipe;
 public class RecipeViewModel {
 
     int recipeId;
-    String recipeName, usedIngredients, missedIngredients;
+    String recipeName;
+    String usedIngredients;
+    String missedIngredients;
+    String imageUrl;
 
-    public RecipeViewModel(int recipeId, String recipeName, String usedIngredients, String missedIngredients){
+    public RecipeViewModel(int recipeId, String recipeName, String usedIngredients, String missedIngredients, String imageUrl){
         this.recipeId = recipeId;
         this.recipeName= recipeName;
         this.usedIngredients = usedIngredients;
         this.missedIngredients = missedIngredients;
+        this.imageUrl = imageUrl;
     }
     public int getRecipeId() {
         return recipeId;
@@ -22,5 +26,8 @@ public class RecipeViewModel {
     }
     public String getMissedIngredients() {
         return missedIngredients;
+    }
+    public String getImageUrl() {
+        return imageUrl;
     }
 }
