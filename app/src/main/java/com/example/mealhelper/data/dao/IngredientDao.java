@@ -20,8 +20,8 @@ public interface IngredientDao {
     @Query("SELECT * FROM Ingredient WHERE ingredientId = :ingredientId LIMIT 1")
     IngredientEntity getIngredientById(int ingredientId);
 
-    @Query("SELECT ingredientName FROM Ingredient")
-    List<String> getIngredientNames();
+    @Query("SELECT * FROM Ingredient WHERE LOWER(ingredientName) = LOWER(:name) LIMIT 1")
+    IngredientEntity getIngredientNames(String name);
 
     @Query("UPDATE Ingredient SET isChecked = :checked WHERE ingredientId = :id")
     void updateChecked(int id, boolean checked);

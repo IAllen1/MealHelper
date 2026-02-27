@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -14,6 +16,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.mealhelper.ActivityBase;
 import com.example.mealhelper.R;
 import com.example.mealhelper.data.MealDatabase;
 
@@ -23,21 +26,26 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class RecipeFinder extends AppCompatActivity implements RecipeRecyclerViewInterface{
+public class RecipeFinder extends ActivityBase implements RecipeRecyclerViewInterface{
 
     MealDatabase mealDatabase;
     String apiKey = "2a695673a58445d98c130ecb7d1c8c98";
     RecyclerView recyclerView;
-
     RecipeRecyclerAdapter adapter;
     ArrayList<RecipeViewModel> recipeViewModels = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipe_finder);
+        setContentView(R.layout.activity_base);
+
+        View contentView = LayoutInflater.from(this)
+                .inflate(R.layout.activity_recipe_finder,
+                        findViewById(R.id.content_frame), true);
+        setupBottomNav(-1);
+
         mealDatabase = MealDatabase.getMealDatabase(getApplicationContext());
-        recyclerView = findViewById(R.id.recipeSearchResult);
+        recyclerView = contentView.findViewById(R.id.recipeSearchResult);
 
         adapter = new RecipeRecyclerAdapter(this, recipeViewModels, this);
         recyclerView.setAdapter(adapter);
@@ -64,7 +72,7 @@ public class RecipeFinder extends AppCompatActivity implements RecipeRecyclerVie
         String recipeUrl = "https://api.spoonacular.com/recipes/findByIngredients"
                 + "?apiKey=" + apiKey
                 + "&ingredients=" + ingredientBuilder
-                + "&number=20&ranking=1&ignorePantry=false";
+                + "&number=20&ranking=1&ignorePantry=true";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
