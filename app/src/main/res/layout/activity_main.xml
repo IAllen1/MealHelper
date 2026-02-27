@@ -6,78 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
-    <TextView
-        android:id="@+id/txtText1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="39dp"
-        android:text="Search for Ingredient"
-        app:layout_constraintEnd_toEndOf="@+id/editTxtSearch"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTxtSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:hint="Search"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtText1" />
-
-    <Button
-        android:id="@+id/B"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="33dp"
-        android:enabled="false"
-        android:text="Add"
-        app:layout_constraintStart_toStartOf="@+id/btnSearch"
-        app:layout_constraintTop_toBottomOf="@+id/btnSearch" />
-
-    <Button
-        android:id="@+id/btnSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
-        android:text="Search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTxtSearch" />
-
-    <TextView
-        android:id="@+id/txtSearchResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="30dp"
-        android:text="Result"
-        app:layout_constraintStart_toStartOf="@+id/B"
-        app:layout_constraintTop_toBottomOf="@+id/B" />
-
-    <Button
-        android:id="@+id/btnRecipeGenerate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="41dp"
-        android:onClick="goToRecipeGenerator"
-        android:text="Recipe Generator"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/btnGoToIngredientList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginTop="46dp"
         android:onClick="goToIngredientList"
         android:text="Ingredient List"
-        app:layout_constraintBottom_toTopOf="@+id/btnRecipeGenerate"
-        app:layout_constraintStart_toStartOf="@+id/btnRecipeGenerate" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnGoToSavedRecipes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:onClick="goToSavedRecipes"
+        android:text="Saved Recipes"
+        app:layout_constraintStart_toStartOf="@+id/btnGoToIngredientList"
+        app:layout_constraintTop_toBottomOf="@+id/btnGoToIngredientList" />
 </androidx.constraintlayout.widget.ConstraintLayout>

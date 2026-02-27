@@ -1,5 +1,6 @@
 package com.example.mealhelper.ui.Ingredient;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,10 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.mealhelper.ActivityBase;
 import com.example.mealhelper.R;
 import com.example.mealhelper.data.MealDatabase;
 import com.example.mealhelper.data.dao.IngredientDao;
@@ -20,50 +24,37 @@ import com.example.mealhelper.ui.recipe.RecipeFinder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IngredientList extends AppCompatActivity implements IngredientRecyclerViewInterface {
+public class IngredientList extends ActivityBase implements IngredientRecyclerViewInterface {
 
     MealDatabase mealDatabase;
     IngredientDao ingredientDao;
     IngredientRecyclerAdapter adapter;
     ArrayList<IngredientViewModel> ingredientViewModels = new ArrayList<>();
-    Button generateRecipes;
+    Button generateRecipes, addIngredient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ingredient_list);
+        setContentView(R.layout.activity_base);
+
+        View contentView = LayoutInflater.from(this)
+                .inflate(R.layout.activity_ingredient_list,
+                        findViewById(R.id.content_frame), true);
+
+        setupBottomNav(R.id.nav_search);
 
         mealDatabase = MealDatabase.getMealDatabase(getApplicationContext());
         ingredientDao = mealDatabase.ingredientDao();
-        RecyclerView recyclerView = findViewById(R.id.viewIngredientList);
 
-        //For listing all the ingredients alphabetically within the ingredients table - Should be done
+        RecyclerView recyclerView = contentView.findViewById(R.id.viewIngredientList);
 
-        //User can select a single/multiple ingredient(s) - Done
-        //User can tap generate recipes - taking them to a new view with the results based on the ingredients selected
-        //User can add new ingredients to the database if needed
-
-
-        //On first app launch, add 10 ingredients from the API - check if the table is empty first - DONE
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //Query table if there are ingredients
-
-                List<IngredientEntity> existingIngredients = ingredientDao.getAll();
-
-                if (existingIngredients.isEmpty()){
-                    buildIngredientList();
-                }
-            }
-        }).start();
-
-        setupIngredientViewModels();
         adapter = new IngredientRecyclerAdapter(this, ingredientViewModels, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        setupIngredientViewModels();
 
-        generateRecipes = findViewById(R.id.btnGenerateRecipe);
+        generateRecipes = contentView.findViewById(R.id.btnGenerateRecipe);
+        addIngredient = contentView.findViewById(R.id.btnAddIngredient);
 
         generateRecipes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +92,12 @@ public class IngredientList extends AppCompatActivity implements IngredientRecyc
                 }).start();
             }
         });
-
+        addIngredient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAddIngredientDialog();
+            }
+        });
     }
     private void buildIngredientList(){
         IngredientEntity ingredientEntity1 = new IngredientEntity();
@@ -143,6 +139,11 @@ public class IngredientList extends AppCompatActivity implements IngredientRecyc
                 //Get the Ingredients currently in the database
                 List<IngredientEntity> existingIngredients = ingredientDao.getAll();
 
+                if (existingIngredients.isEmpty()){
+                    buildIngredientList();
+                    existingIngredients = ingredientDao.getAll();
+                }
+
                 List<IngredientViewModel> list = new ArrayList<>();
 
                 //Creating new ingredient view models from the list of existing ingredients
@@ -181,6 +182,68 @@ public class IngredientList extends AppCompatActivity implements IngredientRecyc
                         ingredient.getIngredientId(),
                         ingredient.isChecked()
                 );
+            }
+        }).start();
+    }
+
+    //Pop up dialog box for user to add a new ingredient
+    private void showAddIngredientDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Add Ingredient");
+
+        final AutoCompleteTextView input = new AutoCompleteTextView(this);
+        input.setHint("Enter ingredient name");
+
+        builder.setView(input);
+
+        builder.setPositiveButton("Add", (dialog, which) -> {
+
+            String newIngredient = input.getText().toString().trim();
+
+            if (newIngredient.isEmpty()) {
+                Toast.makeText(this, "Enter an ingredient", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            insertIngredient(newIngredient);
+        });
+
+        builder.setNegativeButton("Cancel", null);
+
+        builder.show();
+    }
+
+    //Adds a new ingredient to the ingredient table
+    private void insertIngredient(String name) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                IngredientEntity existing = ingredientDao.getIngredientNames(name);
+
+                if (existing != null) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Ingredient already exists", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    return;
+                }
+
+                IngredientEntity ingredient = new IngredientEntity();
+                ingredient.setIngredientName(name);
+                ingredient.setChecked(false);
+
+                ingredientDao.addIngredient(ingredient);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Ingredient added", Toast.LENGTH_SHORT).show();
+                        setupIngredientViewModels();
+                    }
+                });
             }
         }).start();
     }

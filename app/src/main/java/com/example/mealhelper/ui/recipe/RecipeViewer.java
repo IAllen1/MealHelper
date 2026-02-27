@@ -35,12 +35,9 @@ public class RecipeViewer extends AppCompatActivity {
 
         String url = getIntent().getStringExtra("sourceUrl");
 
-
-
         recipeViewer.getSettings().setJavaScriptEnabled(true);
-
+        recipeViewer.getSettings().setDomStorageEnabled(true);
         recipeViewer.setWebViewClient(new WebViewClient());
-
         recipeViewer.loadUrl(url);
     }
 }

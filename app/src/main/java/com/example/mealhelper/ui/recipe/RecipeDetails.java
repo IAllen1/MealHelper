@@ -22,10 +22,14 @@ import com.example.mealhelper.R;
 import com.example.mealhelper.data.MealDatabase;
 import com.example.mealhelper.data.dao.RecipeDao;
 import com.example.mealhelper.data.entity.RecipeEntity;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RecipeDetails extends AppCompatActivity {
 
@@ -37,6 +41,7 @@ public class RecipeDetails extends AppCompatActivity {
     ImageView recipeImage;
     String sourceUrl = "";
     String imageUrl = "";
+    MaterialToolbar backToRecipeSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +57,38 @@ public class RecipeDetails extends AppCompatActivity {
         saveRecipe = findViewById(R.id.btnSaveRecipe);
         recipeImage = findViewById(R.id.imgRecipeImage);
 
+        backToRecipeSearch = findViewById(R.id.toolbar2);
+        setSupportActionBar(backToRecipeSearch);
+
+        backToRecipeSearch.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         int recipeId = getIntent().getIntExtra("recipeId", -1);
-        String recipeName = getIntent().getStringExtra("recipeName");
+        String recipeTitle = getIntent().getStringExtra("recipeName");
         String usedIngredients = getIntent().getStringExtra("usedIngredients");
         String missedIngredients = getIntent().getStringExtra("missedIngredients");
 
         //Get Recipe information call: https://api.spoonacular.com/recipes/{id}/information?apiKey={apiKey}&addWinePairing=false&addTasteData=false
         //Get the recipe image, name, used and unused ingredients from the previous activity, source URL
 
-        callVolley(recipeId);
+
+        //Query database first to see if the recipe is already saved, if it is pull the info from the database
+        //Will save an API call
+
+        checkDatabaseForRecipe(recipeId, recipe -> {
+            if (recipe != null){
+                loadRecipeImage(recipe.getImageUrl());
+                recipeName.setText(recipe.getRecipeTitle());
+                sourceUrl = recipe.getSourceUrl();
+            }
+            else{
+                callVolley(recipeId);
+            }
+        });
         recipeUsedIngredients.setText(usedIngredients);
         recipeUnusedIngredients.setText(missedIngredients);
 
@@ -90,7 +118,7 @@ public class RecipeDetails extends AppCompatActivity {
                     public void run() {
                         RecipeEntity recipe = new RecipeEntity();
                         recipe.setRecipeID(recipeId);
-                        recipe.setRecipeTitle(recipeName);
+                        recipe.setRecipeTitle(recipeTitle);
                         recipe.setImageUrl(imageUrl);
                         recipe.setSourceUrl(sourceUrl);
 
@@ -102,7 +130,7 @@ public class RecipeDetails extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     Toast.makeText(getApplicationContext(),
-                                            recipeName + " already saved", Toast.LENGTH_SHORT).show();
+                                            recipeTitle + " already saved", Toast.LENGTH_SHORT).show();
                                 }
                             });
                             return;
@@ -120,7 +148,6 @@ public class RecipeDetails extends AppCompatActivity {
                 }).start();
             }
         });
-
     }
 
     private void callVolley(int recipeId){
@@ -175,5 +202,25 @@ public class RecipeDetails extends AppCompatActivity {
             }
         });
         queue.add(imageRequest);
+    }
+
+    private void checkDatabaseForRecipe(int recipeId, DatabaseCheckCallback callback){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                RecipeEntity recipe = recipeDao.getRecipeById(recipeId);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onResult(recipe);
+                    }
+                });
+            }
+        }).start();
+    }
+
+    public interface DatabaseCheckCallback{
+        void onResult(RecipeEntity recipe);
     }
 }

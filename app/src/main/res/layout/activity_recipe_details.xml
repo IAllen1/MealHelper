@@ -13,80 +13,98 @@
       app:layout_constraintBottom_toTopOf="@+id/txtRecipeTitle"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/toolbar2"
       tools:src="@tools:sample/avatars" />
-
-  <TextView
-      android:id="@+id/textView5"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="76dp"
-      android:text="Unused Ingredients"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.203"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/txtUsedIngredients" />
-
-  <Button
-      android:id="@+id/btnSaveRecipe"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="48dp"
-      android:text="Save Recipe"
-      app:layout_constraintBaseline_toBaselineOf="@+id/btnViewRecipe"
-      app:layout_constraintEnd_toEndOf="parent" />
 
   <TextView
       android:id="@+id/textView3"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginStart="59dp"
+      android:layout_marginBottom="16dp"
       android:text="Used Ingredients"
       app:layout_constraintBottom_toTopOf="@+id/txtUsedIngredients"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/txtRecipeTitle" />
-
-  <Button
-      android:id="@+id/btnViewRecipe"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="100dp"
-      android:text="View Recipe"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toStartOf="@+id/btnSaveRecipe"
-      app:layout_constraintStart_toStartOf="parent" />
-
-  <TextView
-      android:id="@+id/txtUnusedIngredients"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginEnd="2dp"
-      android:text="TextView"
-      app:layout_constraintBottom_toTopOf="@+id/btnViewRecipe"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.168"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textView5"
-      app:layout_constraintVertical_bias="0.251" />
+      app:layout_constraintHorizontal_bias="0.18"
+      app:layout_constraintStart_toStartOf="parent" />
 
   <TextView
       android:id="@+id/txtUsedIngredients"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginStart="2dp"
-      android:layout_marginTop="318dp"
       android:text="TextView"
-      app:layout_constraintStart_toStartOf="@+id/textView3"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.155"
+      app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
+
+  <TextView
+      android:id="@+id/textView5"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Unused Ingredients"
+      app:layout_constraintBottom_toTopOf="@+id/txtUnusedIngredients"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.189"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/txtUsedIngredients"
+      app:layout_constraintVertical_bias="0.85" />
 
   <TextView
       android:id="@+id/txtRecipeTitle"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="79dp"
+      android:layout_marginBottom="48dp"
       android:text="Recipe Name"
-      app:layout_constraintBottom_toTopOf="@+id/txtUsedIngredients"
+      app:layout_constraintBottom_toTopOf="@+id/textView3"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent" />
+
+  <Button
+      android:id="@+id/btnSaveRecipe"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginEnd="36dp"
+      android:layout_marginBottom="76dp"
+      android:text="Save Recipe"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent" />
+
+  <Button
+      android:id="@+id/btnViewRecipe"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="View Recipe"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@+id/btnSaveRecipe"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/txtUnusedIngredients" />
+
+  <TextView
+      android:id="@+id/txtUnusedIngredients"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="206dp"
+      android:text="TextView"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.155"
+      app:layout_constraintStart_toStartOf="parent" />
+
+  <com.google.android.material.appbar.MaterialToolbar
+      android:id="@+id/toolbar2"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="1dp"
+      android:layout_marginTop="1dp"
+      android:layout_marginEnd="1dp"
+      android:background="?attr/colorPrimary"
+      android:minHeight="?attr/actionBarSize"
+      android:theme="?attr/actionBarTheme"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:navigationIcon="@drawable/nav_arrow_back"
+      app:title="Recipe Details" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
