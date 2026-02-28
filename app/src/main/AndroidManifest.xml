@@ -16,6 +16,15 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ShoppingList.ShoppingListDetails"
+            android:exported="false" />
+        <activity
+            android:name=".ui.MealPlanner.MealPlan"
+            android:exported="false" />
+        <activity
+            android:name=".ui.ShoppingList.ShoppingLists"
+            android:exported="false" />
+        <activity
             android:name=".ActivityBase"
             android:exported="false"
             android:label="@string/title_activity_base" />
