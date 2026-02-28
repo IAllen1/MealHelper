@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.mealhelper.ui.Ingredient.IngredientList;
+import com.example.mealhelper.ui.MealPlanner.MealPlan;
+import com.example.mealhelper.ui.ShoppingList.ShoppingLists;
 import com.example.mealhelper.ui.recipe.SavedRecipes;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -35,6 +37,13 @@ public abstract class ActivityBase extends AppCompatActivity {
             else if(id == R.id.nav_search){
                 startActivity(new Intent(this, IngredientList.class));
                 return true;
+            }
+            else if (id == R.id.nav_shopping){
+                startActivity(new Intent(this, ShoppingLists.class));
+                return true;
+            }
+            else if (id == R.id.nav_planner){
+                startActivity(new Intent(this, MealPlan.class));
             }
             return false;
         });

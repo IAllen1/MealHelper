@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         mealDatabase = MealDatabase.getMealDatabase(getApplicationContext());
 
     }
-
     public void goToSavedRecipes(View view) {
         Intent intent = new Intent(MainActivity.this, SavedRecipes.class);
         startActivity(intent);

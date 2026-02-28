@@ -15,47 +15,47 @@ import androidx.room.PrimaryKey;
                         parentColumns ="shoppingListId",
                         childColumns ="shoppingListId",
                         onDelete = ForeignKey.CASCADE
+                ),
+                @ForeignKey(
+                        entity = IngredientEntity.class,
+                        parentColumns = "ingredientId",
+                        childColumns = "ingredientId",
+                        onDelete = ForeignKey.CASCADE
                 )
         },
-        indices = {@Index(value = "shoppingListId")}
+        indices = {@Index(value = "shoppingListId"), @Index("ingredientId")}
 )
 public class ShoppingListItemEntity {
 
-    //Primary Key for table, not auto generated as ID will be taken from the API
-    @PrimaryKey
-    @ColumnInfo(name = "ingredientId") Integer ingredientId;
+    @PrimaryKey (autoGenerate = true) Integer shoppingListItemId;
     @ColumnInfo(name = "shoppingListId") Integer shoppingListId;
-    @ColumnInfo(name = "ingredientName") String ingredientName;
-    @ColumnInfo(name = "isChecked") boolean isChecked;
+    @ColumnInfo(name = "ingredientId") Integer ingredientId;
+    @ColumnInfo(name = "isChecked", defaultValue = "0") boolean isChecked;
 
-    public Integer getIngredientId() {
-        return ingredientId;
+    public Integer getShoppingListItemId() {
+        return shoppingListItemId;
     }
-
-    public void setIngredientId(Integer ingredientId) {
-        this.ingredientId = ingredientId;
+    public void setShoppingListItemId(Integer shoppingListItemId) {
+        this.shoppingListItemId = shoppingListItemId;
     }
 
     public Integer getShoppingListId() {
         return shoppingListId;
     }
-
     public void setShoppingListId(Integer shoppingListId) {
         this.shoppingListId = shoppingListId;
     }
 
-    public String getIngredientName() {
-        return ingredientName;
+    public Integer getIngredientId() {
+        return ingredientId;
     }
-
-    public void setIngredientName(String ingredientName) {
-        this.ingredientName = ingredientName;
+    public void setIngredientId(Integer ingredientId) {
+        this.ingredientId = ingredientId;
     }
 
     public boolean isChecked() {
         return isChecked;
     }
-
     public void setChecked(boolean checked) {
         isChecked = checked;
     }

@@ -13,6 +13,11 @@ public interface ShoppingListItemDao {
 
     @Insert void addItem(ShoppingListItemEntity shoppingListItemEntity);
 
+
+    //Use this to populate the activity with the ingredients from each shopping list, will likely need updated
     @Query("SELECT * FROM shoppinglistitem")
     List<ShoppingListItemEntity> getAll();
+
+    //Adding an ingredient to a list
+
 }

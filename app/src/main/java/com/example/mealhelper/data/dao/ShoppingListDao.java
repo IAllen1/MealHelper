@@ -15,4 +15,7 @@ public interface ShoppingListDao {
 
     @Query("SELECT * FROM shoppinglist")
     List<ShoppingListEntity> getAll();
+
+    @Query("SELECT * FROM ShoppingList WHERE LOWER(shoppingListName) = LOWER(:name) LIMIT 1")
+    ShoppingListEntity getShoppingListNames(String name);
 }
