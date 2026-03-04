@@ -18,6 +18,9 @@ public interface ShoppingListItemDao {
     @Query("SELECT * FROM shoppinglistitem")
     List<ShoppingListItemEntity> getAll();
 
-    //Adding an ingredient to a list
+    //List all shopping list items based on a specific shopping list ID
+
+    @Query("SELECT * FROM shoppinglistitem WHERE shoppingListId = :id")
+    List<ShoppingListItemEntity> getIngredientsById(int id);
 
 }

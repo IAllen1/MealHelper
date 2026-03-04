@@ -28,4 +28,7 @@ public interface IngredientDao {
 
     @Query ("SELECT ingredientName FROM Ingredient WHERE isChecked = 1")
     List<String> getCheckedIngredientNames();
+
+    @Query("SELECT ingredientName FROM Ingredient WHERE ingredientId = :id")
+    String getIngredientNameById(int id);
 }
