@@ -23,7 +23,9 @@ import androidx.room.PrimaryKey;
                         onDelete = ForeignKey.CASCADE
                 )
         },
-        indices = {@Index(value = "shoppingListId"), @Index("ingredientId")}
+        indices = {
+                @Index(value = {"shoppingListId", "ingredientId"}, unique = true)
+        }
 )
 public class ShoppingListItemEntity {
 
