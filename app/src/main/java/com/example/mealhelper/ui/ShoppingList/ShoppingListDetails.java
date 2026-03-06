@@ -35,15 +35,11 @@ public class ShoppingListDetails extends ActivityBase implements IngredientRecyc
     IngredientDao ingredientDao;
     ShoppingListDao shoppingListDao;
     ShoppingListItemDao shoppingListItemDao;
-
     IngredientRecyclerAdapter adapter;
-
     ArrayList<IngredientViewModel> listIngredientViewModels = new ArrayList<>();
-
     RecyclerView recyclerView;
     MaterialToolbar addIngredient;
-
-
+    int shoppingListId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +53,7 @@ public class ShoppingListDetails extends ActivityBase implements IngredientRecyc
         setupBottomNav(-1);
 
         String shoppingListTitle = getIntent().getStringExtra("shoppingListName");
-        int shoppingListId = getIntent().getIntExtra("shoppingListId", -1);
+        shoppingListId = getIntent().getIntExtra("shoppingListId", -1);
 
         //List existing ingredients, should be able to reuse the ingredients recycler adapter
 
@@ -99,8 +95,21 @@ public class ShoppingListDetails extends ActivityBase implements IngredientRecyc
         IngredientViewModel ingredient = listIngredientViewModels.get(position);
         ingredient.setChecked(!ingredient.isChecked());
         adapter.notifyItemChanged(position);
-    }
 
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //Needs to get the shopping list item id rather than the ingredient id
+                shoppingListItemDao.updateChecked(
+                        ingredient.getIngredientId(),
+                        shoppingListId,
+                        ingredient.isChecked()
+                );
+            }
+        }).start();
+    }
     private void setupIngredientListViewModels(int listId){
         //Populate the contents of the shopping list
 
@@ -197,7 +206,6 @@ public class ShoppingListDetails extends ActivityBase implements IngredientRecyc
     private void insertIngredientToList(List<IngredientEntity> ingredients, ArrayList<Integer> selected, int shoppingListId){
         //Inserting the selected ingredients to the list
         //Insert query
-        //Check if the ingredient is already in the list
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -211,7 +219,7 @@ public class ShoppingListDetails extends ActivityBase implements IngredientRecyc
                     shoppingListIngredient.setIngredientId(ingredient.getIngredientId());
                     shoppingListIngredient.setChecked(false);
 
-                    shoppingListItemDao.addItem(shoppingListIngredient);
+                    shoppingListItemDao.add(shoppingListIngredient);
                 }
                 runOnUiThread(new Runnable() {
                     @Override
