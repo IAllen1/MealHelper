@@ -1,6 +1,7 @@
 package com.example.mealhelper.ui.Ingredient;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +19,26 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<IngredientRe
     private final IngredientRecyclerViewInterface recyclerViewInterface;
     Context context;
     ArrayList<IngredientViewModel> ingredientViewModels;
+    int layoutId;
+    boolean enableStrikeThrough;
 
-    public IngredientRecyclerAdapter (Context context, ArrayList<IngredientViewModel> ingredientViewModels, IngredientRecyclerViewInterface recyclerViewInterface){
+    public IngredientRecyclerAdapter (Context context,
+                                      ArrayList<IngredientViewModel> ingredientViewModels,
+                                      IngredientRecyclerViewInterface recyclerViewInterface,
+                                      int layoutId,
+                                      boolean enableStrikeThrough){
         this.context = context;
         this.ingredientViewModels = ingredientViewModels;
         this.recyclerViewInterface = recyclerViewInterface;
+        this.layoutId = layoutId;
+        this.enableStrikeThrough = enableStrikeThrough;
     }
 
     @NonNull
     @Override
     public IngredientRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.ingredient_recycler_view_layout, parent, false);
+        View view = inflater.inflate(layoutId, parent, false);
 
         return new IngredientRecyclerAdapter.MyViewHolder(view, recyclerViewInterface);
     }
@@ -38,6 +47,24 @@ public class IngredientRecyclerAdapter extends RecyclerView.Adapter<IngredientRe
         IngredientViewModel ingredient = ingredientViewModels.get(position);
         holder.ingredientName.setText(ingredient.getIngredientName());
         holder.itemView.setSelected(ingredient.isChecked());
+
+        if (enableStrikeThrough){
+
+            if (ingredient.isChecked()){
+                holder.ingredientName.setPaintFlags(
+                        holder.ingredientName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG
+                );
+            }
+            else{
+                holder.ingredientName.setPaintFlags(
+                        holder.ingredientName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG)
+                );
+            }
+        }
+        else{
+            holder.ingredientName.setPaintFlags(
+                    holder.ingredientName.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+        }
     }
     @Override
     public int getItemCount() {

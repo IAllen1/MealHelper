@@ -48,7 +48,7 @@ public class IngredientList extends ActivityBase implements IngredientRecyclerVi
 
         RecyclerView recyclerView = contentView.findViewById(R.id.viewIngredientList);
 
-        adapter = new IngredientRecyclerAdapter(this, ingredientViewModels, this);
+        adapter = new IngredientRecyclerAdapter(this, ingredientViewModels, this, R.layout.ingredient_recycler_view_layout, false);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         setupIngredientViewModels();

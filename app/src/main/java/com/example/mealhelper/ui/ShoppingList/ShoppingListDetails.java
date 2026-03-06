@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.graphics.Paint;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -75,7 +76,7 @@ public class ShoppingListDetails extends ActivityBase implements IngredientRecyc
 
         addIngredient.setTitle(shoppingListTitle);
 
-        adapter = new IngredientRecyclerAdapter(this, listIngredientViewModels, this);
+        adapter = new IngredientRecyclerAdapter(this, listIngredientViewModels, this, R.layout.shopping_details_recycler_view_layout, true);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         setupIngredientListViewModels(shoppingListId);
@@ -90,7 +91,14 @@ public class ShoppingListDetails extends ActivityBase implements IngredientRecyc
     }
 
     public void onItemClick(int position){
-        //Do Something
+        //When user clicks an ingredient, it will cross out (strikethrough should be a thing)
+        //Table will update the ingredientListItemID to isChecked = true
+        //When user taps again, it will un-cross out
+        //Table will update the ingredientListItemID to isChecked = false
+
+        IngredientViewModel ingredient = listIngredientViewModels.get(position);
+        ingredient.setChecked(!ingredient.isChecked());
+        adapter.notifyItemChanged(position);
     }
 
     private void setupIngredientListViewModels(int listId){
@@ -125,8 +133,6 @@ public class ShoppingListDetails extends ActivityBase implements IngredientRecyc
             }
         }).start();
     }
-
-
     private void getIngredients(IngredientsCallBack callBack){
         new Thread(new Runnable() {
             @Override
@@ -141,11 +147,9 @@ public class ShoppingListDetails extends ActivityBase implements IngredientRecyc
             }
         }).start();
     }
-
     public interface IngredientsCallBack{
         void onResult(List<IngredientEntity> ingredients);
     }
-
     private void showAddIngredientDialog(int shoppingListId){
         //When user clicks + Symbol
         //Open Dialog Box
@@ -190,11 +194,10 @@ public class ShoppingListDetails extends ActivityBase implements IngredientRecyc
             builder.show();
         });
     }
-
     private void insertIngredientToList(List<IngredientEntity> ingredients, ArrayList<Integer> selected, int shoppingListId){
         //Inserting the selected ingredients to the list
         //Insert query
-
+        //Check if the ingredient is already in the list
         new Thread(new Runnable() {
             @Override
             public void run() {
