@@ -11,8 +11,8 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="228dp"
+        android:layout_height="48dp"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="12dp"
@@ -24,6 +24,7 @@
             android:id="@+id/txtIngredientName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:textSize="16sp"
             tools:text="Ingredient" />
     </LinearLayout>

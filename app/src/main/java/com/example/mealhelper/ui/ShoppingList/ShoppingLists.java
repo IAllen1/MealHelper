@@ -81,7 +81,6 @@ public class ShoppingLists extends ActivityBase implements ShoppingListRecyclerV
             }
             return false;
         });
-
     }
 
     private void setupShoppingListViewModels(){

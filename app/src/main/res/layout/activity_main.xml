@@ -7,23 +7,45 @@
     tools:context=".ui.MainActivity">
 
     <Button
-        android:id="@+id/btnGoToIngredientList"
+        android:id="@+id/btnGoToMealPlan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
-        android:onClick="goToIngredientList"
-        android:text="Ingredient List"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="19dp"
+        android:onClick="goToMealPlanner"
+        android:text="Meal Planner"
+        app:layout_constraintStart_toStartOf="@+id/btnGoToSavedRecipes"
+        app:layout_constraintTop_toBottomOf="@+id/btnGoToSavedRecipes" />
 
     <Button
         android:id="@+id/btnGoToSavedRecipes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="312dp"
         android:onClick="goToSavedRecipes"
         android:text="Saved Recipes"
-        app:layout_constraintStart_toStartOf="@+id/btnGoToIngredientList"
-        app:layout_constraintTop_toBottomOf="@+id/btnGoToIngredientList" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnGoToIngredientList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:onClick="goToIngredientList"
+        android:text="Ingredient List"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoToSavedRecipes"
+        app:layout_constraintStart_toStartOf="@+id/btnGoToSavedRecipes" />
+
+    <Button
+        android:id="@+id/btnGoToShoppingList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="1dp"
+        android:onClick="goToShoppingList"
+        android:text="Shopping Lists"
+        app:layout_constraintEnd_toEndOf="@+id/btnGoToSavedRecipes"
+        app:layout_constraintTop_toBottomOf="@+id/btnGoToMealPlan" />
 </androidx.constraintlayout.widget.ConstraintLayout>

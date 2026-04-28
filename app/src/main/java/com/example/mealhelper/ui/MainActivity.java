@@ -17,6 +17,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mealhelper.R;
+import com.example.mealhelper.ui.MealPlanner.MealPlan;
+import com.example.mealhelper.ui.ShoppingList.ShoppingLists;
 import com.example.mealhelper.ui.recipe.RecipeFinder;
 import com.example.mealhelper.data.MealDatabase;
 import com.example.mealhelper.data.dao.IngredientDao;
@@ -47,6 +49,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToIngredientList(View view) {
         Intent intent = new Intent(MainActivity.this, IngredientList.class);
+        startActivity(intent);
+    }
+
+    public void goToShoppingList(View view){
+        Intent intent = new Intent(MainActivity.this, ShoppingLists.class);
+        startActivity(intent);
+    }
+
+    public void goToMealPlanner(View view){
+        Intent intent = new Intent(MainActivity.this, MealPlan.class);
         startActivity(intent);
     }
 }
