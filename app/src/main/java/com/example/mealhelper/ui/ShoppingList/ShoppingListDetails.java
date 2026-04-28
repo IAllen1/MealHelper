@@ -96,8 +96,6 @@ public class ShoppingListDetails extends ActivityBase implements IngredientRecyc
         ingredient.setChecked(!ingredient.isChecked());
         adapter.notifyItemChanged(position);
 
-
-
         new Thread(new Runnable() {
             @Override
             public void run() {

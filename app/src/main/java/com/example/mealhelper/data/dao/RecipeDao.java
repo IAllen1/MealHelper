@@ -18,4 +18,7 @@ public interface RecipeDao {
 
     @Query("SELECT * FROM Recipe WHERE recipeId = :recipeId LIMIT 1")
     RecipeEntity getRecipeById(int recipeId);
+
+    @Query("SELECT recipeTitle FROM Recipe WHERE recipeId = :id")
+    String getRecipeNameById(int id);
 }

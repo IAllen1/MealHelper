@@ -11,12 +11,16 @@ import androidx.room.PrimaryKey;
         foreignKeys = {
                 @ForeignKey(
                         entity = RecipeEntity.class,
-                        parentColumns ="recipeId",
-                        childColumns ="recipeId",
+                        parentColumns = "recipeId",
+                        childColumns = "recipeId",
                         onDelete = ForeignKey.CASCADE
                 )
         },
-indices = {@Index(value = "recipeId")}
+        indices = {
+            @Index(value = "recipeId"),
+                //Will ensure date and meal type combination will be unique e.g. 06/03/2026 + "Dinner" will only appear once
+            @Index(value = {"date", "mealType"}, unique = true)
+        }
 )
 
 public class MealPlanEntity {
@@ -30,7 +34,6 @@ public class MealPlanEntity {
     public Integer getMealPlanId() {
         return MealPlanId;
     }
-
     public void setMealPlanId(Integer mealPlanId) {
         MealPlanId = mealPlanId;
     }
@@ -38,7 +41,6 @@ public class MealPlanEntity {
     public Integer getRecipeId() {
         return recipeId;
     }
-
     public void setRecipeId(Integer recipeId) {
         this.recipeId = recipeId;
     }
@@ -46,7 +48,6 @@ public class MealPlanEntity {
     public String getDate() {
         return date;
     }
-
     public void setDate(String date) {
         this.date = date;
     }
@@ -54,7 +55,6 @@ public class MealPlanEntity {
     public String getMealType() {
         return mealType;
     }
-
     public void setMealType(String mealType) {
         this.mealType = mealType;
     }
